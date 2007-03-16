@@ -1,0 +1,29 @@
+inherit java
+
+ORIG_PN="${PN#java-}"
+
+DESCRIPTION="Pure Java X11 library"
+HOMEPAGE="http://escher.sourceforge.net/"
+SRC_URI="mirror://sourceforge/${ORIG_PN}/${ORIG_PN}-${PV}.tar.gz"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	${JAVAC} -d classes $(find gnu -name '*.java') || error "jikes compile failed"
+	(cd classes && ${JAR} cf ../${ORIG_PN}.jar gnu/)
+}
+
+src_test() {
+	cd ${B}
+	for t in Blend Chinese DBE Hello Hello2 Image Info Internal Polygon \
+	         PrintHello SendEvent Shape Sync ZPixmap
+	do
+		${JAVA} -classpath ${ORIG_PN}.jar gnu.x11.test.${t} || true
+	done
+}
+
+src_install() {
+	cd ${B}
+	dojar ${ORIG_PN}.jar
+	dojavadoc ${S}/doc/
+}
