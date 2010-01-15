@@ -1,5 +1,4 @@
 category: Java X11
-requires: classpath
 sdesc: "Java X11 libraries"
 ldesc: "Escher is a collection of libraries for X Window System written 
 purely in Java. It consists of an X11 protocol implementation (similar 
